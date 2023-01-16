@@ -15,5 +15,15 @@ public class Lesson23_StringBuilder {
         StringBuilder sb = new StringBuilder("hello");
         sb.append(" my").append(" friends");
         System.out.println(sb.toString());
+
+        System.out.printf("%fThis is %s a string, %d\n", 10.4,"HIHI", 10000);
+        System.out.printf("String %5d\n",123456789);  // %10d оставляет 5 символов для числа
+        System.out.printf("String %5d\n",0);
+        System.out.printf("String %5d\n",12345);
+        System.out.printf("String %5d\n",78);
+
+        System.out.printf("String %.2f\n",2.565445);  // округляет числа до 2х знаков после запятой
+        System.out.printf("String %.2f\n",256.254565);
+
     }
 }
