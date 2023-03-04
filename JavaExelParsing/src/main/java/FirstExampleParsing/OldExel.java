@@ -30,7 +30,8 @@ public class OldExel {
                 Iterator cellIterator = row.cellIterator();
                 while (cellIterator.hasNext()) {
                     HSSFCell cell = (HSSFCell) cellIterator.next();
-                    System.out.print(cell.getStringCellValue() + " ");
+                    //System.out.print(cell.getStringCellValue() + " ");
+                    System.out.println(cell);
                 }
                 System.out.println("");
             }
