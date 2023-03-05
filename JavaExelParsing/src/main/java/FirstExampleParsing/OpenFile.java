@@ -9,7 +9,8 @@ import java.io.IOException;
 public class OpenFile {
 
     public XSSFWorkbook openFile() throws IOException {
-        FileInputStream file = new FileInputStream(new File("1.xlsx"));
+        String x = "1.xlsx";
+        FileInputStream file = new FileInputStream(new File(x));
         System.out.println("Open");
         // Создаем экземпляр класса XSSFWorkbook для чтения xlsx-файла
         XSSFWorkbook workbook = new XSSFWorkbook(file);
