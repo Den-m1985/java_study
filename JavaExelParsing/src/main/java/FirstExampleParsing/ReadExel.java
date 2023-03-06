@@ -1,41 +1,130 @@
 package FirstExampleParsing;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ReadExel {
+    private String fileName;
 
-    public static void main(String[] args) {
+    ArrayList<String> dataEXEL;
+
+    public ReadExel(String fileName) {
+        this.fileName = fileName;
+        this.dataEXEL = new ArrayList<>();
+    }
+
+    public ArrayList<String> readEXEL() {
+
+        //Row  строка
+        //Cell столб
+
+        FileInputStream inputStream = null;
+        HSSFWorkbook workbook = null;
         try {
-//            FileInputStream file = new FileInputStream(new File("1.xlsx"));
-//            System.out.println("Open");
-//            // Создаем экземпляр класса XSSFWorkbook для чтения xlsx-файла
-//            XSSFWorkbook workbook = new XSSFWorkbook(file);
-//            System.out.println("Read");
+            // Чтение .xls файла
+            inputStream = new FileInputStream(new File(fileName));
+            workbook = new HSSFWorkbook(inputStream);
+            HSSFSheet sheet = workbook.getSheetAt(0);
+            Iterator rowIterator = sheet.iterator();
 
 
-            OpenFile openFile = new OpenFile();
-            XSSFWorkbook workbook = openFile.openFile();
+            ArrayList<String> article = new ArrayList<>();
+            String xxvc = "УТ000008562";
+            int count = 0;
 
-            // Получаем первый лист в книге Excel
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            // Читаем столбец с артиклем полностью. Находим совпадения.
+            for (Row x : sheet) {
+                Cell cell1 = x.getCell(1);
+                count++;
+                if (cell1 != null) {
+                    String code = "";
+                    code = cell1.getStringCellValue();
+                    article.add(code);
 
-            // Идем по строкам и столбцам в таблице
-            for (int i = 0; i < sheet.getLastRowNum(); i++) {
-                XSSFRow row = sheet.getRow(i);
-                for (int j = 0; j < row.getLastCellNum(); j++) {
-                    XSSFCell cell = row.getCell(j);
-                    //System.out.println(cell);
-                    //System.out.print(cell.getStringCellValue() + "\t\t");
+                    if (code.equals(xxvc)) {
+                        System.out.println(cell1);
+                        System.out.println(count);
+
+
+                        Row row = sheet.getRow(count); // получаем  строку
+                        Cell cell = row.getCell(5); // получаем  ячейку
+
+                        if (cell == null) { // если ячейка пустая, создаем ее
+                            cell = row.createCell(5);
+                        }
+
+                        cell.setCellValue("Пример строки2");
+
+
+                        try {
+                            FileOutputStream outputStream = new FileOutputStream(fileName);
+                            workbook.write(outputStream);
+                            workbook.close();
+                            outputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-                //System.out.println("");
             }
 
-//            file.close();
-        } catch (Exception e) {
+            for (String x : article) {
+                //System.out.println(x);
+            }
+
+
+//            while (rowIterator.hasNext()) {
+//
+//                HSSFRow row = (HSSFRow) rowIterator.next();
+//                Iterator cellIterator = row.cellIterator();
+//                while (cellIterator.hasNext()) {
+//                    HSSFCell cell = (HSSFCell) cellIterator.next();
+//                    //System.out.print(cell.getStringCellValue() + " ");
+//                    //System.out.println(row.getRowNum());
+//                }
+//            }
+
+            // Запись в .xls файл
+//        HSSFSheet outputSheet = workbook.createSheet("Output Sheet");
+//        for (int i = 0; i < 5; i++) {
+//            HSSFRow row = outputSheet.createRow(i);
+//            for (int j = 0; j < 5; j++) {
+//                HSSFCell cell = row.createCell(j);
+//                cell.setCellValue("Cell " + i + "," + j);
+//            }
+//        }
+//        FileOutputStream outputStream = new FileOutputStream("output.xls");
+//        workbook.write(outputStream);
+//        outputStream.close();
+        } catch (
+                IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (workbook != null) {
+                    workbook.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+
+        return dataEXEL;
     }
 }

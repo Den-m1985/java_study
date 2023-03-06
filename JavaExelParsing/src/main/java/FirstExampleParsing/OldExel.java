@@ -47,9 +47,6 @@ public class OldExel {
                         System.out.println(cell1);
                         System.out.println(count);
 
-
-
-
                         Row row = sheet.getRow(count); // получаем  строку
                         Cell cell = row.getCell(5); // получаем  ячейку
 
@@ -59,8 +56,6 @@ public class OldExel {
 
                         cell.setCellValue("Пример строки2");
 
-
-
                         try {
                             FileOutputStream outputStream = new FileOutputStream("price.xls");
                             workbook.write(outputStream);
@@ -69,11 +64,7 @@ public class OldExel {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-
-
                     }
-                    //System.out.println(cell1);
                 }
             }
 
