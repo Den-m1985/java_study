@@ -12,7 +12,6 @@ public class CsvRead {
     private Map<String, String> dataCSV;
 
     public CsvRead(String fileName) {
-        //this.dataCSV = new ArrayList<>();
         this.dataCSV = new HashMap<>();
         this.fileName = fileName;
     }
