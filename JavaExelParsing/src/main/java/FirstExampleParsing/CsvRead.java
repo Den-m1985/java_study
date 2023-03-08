@@ -1,50 +1,17 @@
 package FirstExampleParsing;
 
-import com.opencsv.CSVReader;
-
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class CsvRead {
-    //private List<String> dataCSV;
-    private String fileName;
-    private Map<String, String> dataCSV;
+    private final String fileName;
+    private final Map<String, String> dataCSV;
 
     public CsvRead(String fileName) {
         this.dataCSV = new HashMap<>();
         this.fileName = fileName;
     }
 
-    public static void main(String[] args) {
-
-
-//        try {
-//            List<String> data2 = new ArrayList<>();
-//            //CSVReader reader = new CSVReader(new FileReader(fileName), "UTF-8");
-//            CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
-//
-//            String[] line2;
-//
-//            while ((line2 = reader.readNext()) != null) {
-//
-//                for (String cell : line2) {
-//                    //System.out.println(cell);
-//                    data2.add(cell);
-//
-//                }
-//            }
-//            reader.close();
-//            // выводим данные на экран
-//            for (String cell : data2) {
-//                //System.out.println(cell + " ");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
-    }
 
     public Map<String, String> readCSV() {
         String line;

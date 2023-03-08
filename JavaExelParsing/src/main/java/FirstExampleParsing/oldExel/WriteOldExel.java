@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class WriteOldExel {
-    private HSSFWorkbook workbook;
-    private String fileNamePrice;
+    private final HSSFWorkbook workbook;
+    private final String fileNamePrice;
 
     public WriteOldExel(HSSFWorkbook workbook, String fileNamePrice) {
         this.workbook = workbook;

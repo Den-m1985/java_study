@@ -6,12 +6,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ReadExel {
-    private String fileNamePrice;
-    private int numberSheet;
+    private final String fileNamePrice;
+    private final int numberSheet;
 
+
+    private final List<String> notUseArticle= new ArrayList<>();
 
 
     public ReadExel(String fileNamePrice, int numberSheet) {
@@ -20,29 +24,36 @@ public class ReadExel {
     }
 
 
+    public List<String> getNotUseArticle() {
+        return notUseArticle;
+    }
 
-    public void findCellEXEL(Map<String, String> data) {
+
+    public HSSFWorkbook findCellEXEL(Map<String, String> data) {
         //Row  строка
         //Cell столб
-
 
         OpenOldExelFile openOldExelFile = new OpenOldExelFile(fileNamePrice);
         HSSFWorkbook workbook = openOldExelFile.openFile();
         HSSFSheet sheet = workbook.getSheetAt(numberSheet);
 
-
         int cellPoint = 5;  //номер строки куда мы записываем
-        int count = 0;
-        int count2 = 0;
+        int count = 1;
+        int count2 = 1;
         String code = "";
+        List<String> list = new ArrayList<>();
 
-        for (Row row : sheet) {
-            Cell cell1 = row.getCell(1);
-            if (cell1 != null) {
-                code = cell1.getStringCellValue();
-                for (var csv : data.entrySet()) {
-                    if (code.equals(csv.getKey())) {
+        for (var csv : data.entrySet()) {
+            String key = csv.getKey();
+
+            for (Row row : sheet) {
+                Cell cell1 = row.getCell(1);
+                if (cell1 != null) {
+                    code = cell1.getStringCellValue();
+                    if (code.equals(key)) {
                         count2++;
+                        list.add(key);
+
                         Row row2 = sheet.getRow(row.getRowNum()); // получаем  строку
                         Cell cell = row2.getCell(cellPoint); // получаем  ячейку
 
@@ -51,17 +62,28 @@ public class ReadExel {
                         }
                         cell.setCellValue(csv.getValue());
                     }
+
                 }
             }
             count++;
         }
-        System.out.println("число строк " + count + " число строк от команды " + sheet.getRow(0).getHeight());
+
+        for (var csv : data.entrySet()) {
+            String str = csv.getKey();
+            if (list.contains(str)) {
+            } else {
+                notUseArticle.add(str);
+
+            }
+        }
+
+        System.out.println("кол-во строк не вошедших в price " + notUseArticle.size());
+        System.out.println("число строк " + count);
+        System.out.println("число строк от команды sheet.getRow(0).getHeight() " + sheet.getRow(0).getHeight());
         System.out.println("число совпадений " + count2);
 
-        // записываем данные в файл
-        WriteOldExel writeOldExel = new WriteOldExel(workbook, fileNamePrice);
-        writeOldExel.writeCellExel();
-
-
+        return workbook;
     }
+
+
 }
