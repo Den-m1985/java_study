@@ -1,4 +1,4 @@
-package FirstExampleParsing;
+package FirstExampleParsing.csvRead;
 
 import java.io.*;
 import java.util.*;
@@ -12,8 +12,8 @@ public class CsvRead {
         this.fileName = fileName;
     }
 
-
-    public Map<String, String> readCSV() {
+// Этот метод не учитывает двойные кавычки.
+    public Map<String, String> readCSV() throws IOException {
         String line;
         String[] values;
         StringBuilder str = new StringBuilder();
@@ -23,14 +23,13 @@ public class CsvRead {
             while ((line = bufferedReader.readLine()) != null) {
                 values = line.split(";");
 
-                if (values.length > 3 && values.length < 5) {
+
+                if (values.length == 4) {
                     if (values[1] != null)
                         //dataCSV.add(values[1]);
                         dataCSV.put(values[1], values[3]);
-
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

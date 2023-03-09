@@ -20,7 +20,7 @@ public class CreateOldExel {
         //Row  строка
         //Cell столб
         Row row = sheet.createRow(0);
-        row.createCell(0).setCellValue("Артиклы не найденые в price");
+        row.createCell(0).setCellValue("Артикулы не найденые в price");
 
         for (int i = 2; i < list.size(); i++) {
             Row row2 = sheet.createRow(i);
