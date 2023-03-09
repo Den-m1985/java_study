@@ -1,4 +1,4 @@
-package FirstExampleParsing;
+package FirstExampleParsing.window;
 
 import javax.swing.*;
 import java.awt.*;
