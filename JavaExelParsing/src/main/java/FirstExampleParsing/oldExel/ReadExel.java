@@ -13,8 +13,7 @@ import java.util.Map;
 public class ReadExel {
     private final String fileNamePrice;
     private final int numberSheet;
-
-
+    int count2;
     private final List<String> notUseArticle= new ArrayList<>();
 
 
@@ -28,6 +27,9 @@ public class ReadExel {
         return notUseArticle;
     }
 
+    public int getCount2() {
+        return count2;
+    }
 
     public HSSFWorkbook findCellEXEL(Map<String, String> data) {
         //Row  строка
@@ -39,7 +41,7 @@ public class ReadExel {
 
         int cellPoint = 5;  //номер строки куда мы записываем
         int count = 1;
-        int count2 = 1;
+        count2 = 0;
         String code = "";
         List<String> list = new ArrayList<>();
 

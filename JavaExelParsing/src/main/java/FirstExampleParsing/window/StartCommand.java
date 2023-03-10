@@ -15,23 +15,27 @@ public class StartCommand implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
+        GetPathFile getPathFile = new GetPathFile();
         String str = "";
         String pathCSV = "";
         String pathXLS = "";
 
         for (int i = 0; i < 2; i++) {
             while (true) {
-                GetPathFile getPathFile1 = new GetPathFile();
-                str = getPathFile1.getPathFile();
+                str = getPathFile.getPathFile();
 
                 if (isExtension(str)) {
                     String[] strings = str.split("\\.");
-                    if (strings[1].equals("csv")) {
-                        pathCSV = str;
-                        break;
-                    } else pathXLS = str;
-                    break;
+
+                    if (!str.equals(pathCSV) && !str.equals(pathXLS)) {
+                        if (strings[1].equals("csv")) {
+                            pathCSV = str;
+                            break;
+                        } else if (strings[1].equals("xls")) {
+                            pathXLS = str;
+                            break;
+                        }
+                    } else JOptionPane.showMessageDialog(null, "Уже было");
                 }
                 JOptionPane.showMessageDialog(null, "Не тот формат");
             }
@@ -51,7 +55,9 @@ public class StartCommand implements ActionListener {
             throw new RuntimeException(ex);
         }
 
-        JOptionPane.showMessageDialog(null, "Успешно");
+        JOptionPane.showMessageDialog(null, "<html>Успешно" +
+                "<li>кол-во строк не вошедших в price: </ul>" + startProgram.getCountNoFind()+
+                "<li>число совпвдений: </ul>" + startProgram.getCountFind());
 
 
     }

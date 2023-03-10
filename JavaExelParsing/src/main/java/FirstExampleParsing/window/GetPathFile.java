@@ -8,7 +8,11 @@ public class GetPathFile {
 
 
     public String getPathFile() {
+
         JFileChooser fileopen = new JFileChooser();
+        // open directory by default.
+        fileopen.setCurrentDirectory(new File(System.getProperty("user.home") + File.separator +
+                "Downloads"));
         int ret = fileopen.showDialog(null, "Открыть файл");
         if (ret == JFileChooser.APPROVE_OPTION) {
             File file = fileopen.getSelectedFile();

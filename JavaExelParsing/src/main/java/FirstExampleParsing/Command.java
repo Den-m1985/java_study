@@ -1,5 +1,6 @@
 package FirstExampleParsing;
 
+import FirstExampleParsing.createPathFile.CreatePathFile;
 import FirstExampleParsing.csvRead.CsvRead2;
 import FirstExampleParsing.oldExel.CreateOldExel;
 import FirstExampleParsing.oldExel.ReadExel;
@@ -14,6 +15,8 @@ import java.util.Map;
 
 
 public class Command {
+    int countNoFind;
+    int countFind;
     public Command() {
     }
 
@@ -21,6 +24,8 @@ public class Command {
     public void command(String pathCSV, String pathXLS) throws IOException, CsvException {
 
         long start = System.nanoTime();
+
+        CreatePathFile createPathFile = new CreatePathFile();
 
         // read csv
         Map<String, String> data;
@@ -32,21 +37,23 @@ public class Command {
         ReadExel readExel = new ReadExel(pathXLS, numberSheet);
         HSSFWorkbook workbook = readExel.findCellEXEL(data);
 
-        // write xls
-        WriteOldExel writeOldExel = new WriteOldExel(workbook, pathXLS);
+        // write xls. new path "Price" in downloads
+        String pricePath = createPathFile.createPathFile("Price");
+        WriteOldExel writeOldExel = new WriteOldExel(workbook, pricePath);
         writeOldExel.writeCellExel();
 
         //no find article
         List<String> list;
         list = readExel.getNotUseArticle();
+        countNoFind = list.size();
+        countFind = readExel.getCount2();
 
         //create no find article
         CreateOldExel createOldExel = new CreateOldExel();
         HSSFWorkbook workbook2 = createOldExel.createOldExel(list);
 
-        //write no find article
-        Date date = new Date();
-        String downloadsPath = date.currentDate();
+        //write no find article, xls file in downloads
+        String downloadsPath = createPathFile.createPathFile("No_Find");
         WriteOldExel writeOldExel2 = new WriteOldExel(workbook2, downloadsPath);
         writeOldExel2.writeCellExel();
 
@@ -57,4 +64,12 @@ public class Command {
 
     }
 
+
+    public int getCountNoFind() {
+        return countNoFind;
+    }
+
+    public int getCountFind() {
+        return countFind;
+    }
 }
