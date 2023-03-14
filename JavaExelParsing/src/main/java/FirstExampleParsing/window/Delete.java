@@ -23,7 +23,7 @@ public class Delete  extends JFrame{
     public Delete() {
         super("Demo printing to JTextArea");
 
-        textArea = new JTextArea(50, 10);
+        textArea = new JTextArea(50, 10);   // число строк и кол-во их
         textArea.setEditable(false);
 
         //Печатает текст в окно
@@ -33,7 +33,7 @@ public class Delete  extends JFrame{
         standardOut = System.out;
 
         // re-assigns standard output stream and error output stream
-        System.setOut(printStream);
+        System.setOut(printStream);  // вывод текста на экран с кнопки старт
         System.setErr(printStream);
 
         // creates the GUI
@@ -44,21 +44,25 @@ public class Delete  extends JFrame{
 
         //Делает рамку вокруг
         constraints.insets = new Insets(10, 10, 10, 10);
+        //Делает кнопки рядом
         constraints.anchor = GridBagConstraints.WEST;
 
+        // Добавляем кнопку
         add(buttonStart, constraints);
 
+        // если его нет, то кнопки одна на одной
         constraints.gridx = 1;
         add(buttonClear, constraints);
 
+        // окно для текста по центру
         constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.gridwidth = 2;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.weightx = 1.0;
-        constraints.weighty = 1.0;
+        constraints.gridy = 1;  // кнпки поверх текстового окна.
+        constraints.gridwidth = 2;  // разметка текстового окна
+        constraints.fill = GridBagConstraints.BOTH;  //текстовое окно
+        constraints.weightx = 1.0;  // разметка текстового окна
+        constraints.weighty = 1.0;  // разметка текстового окна
 
-        add(new JScrollPane(textArea), constraints);
+        add(new JScrollPane(textArea), constraints);  // Добавляет текстовое поле.
 
         // adds event handler for button Start
         buttonStart.addActionListener(new ActionListener() {
