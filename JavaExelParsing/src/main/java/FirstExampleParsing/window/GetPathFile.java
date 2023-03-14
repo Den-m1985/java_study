@@ -1,6 +1,7 @@
 package FirstExampleParsing.window;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 public class GetPathFile {
@@ -10,6 +11,10 @@ public class GetPathFile {
     public String getPathFile() {
 
         JFileChooser fileopen = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files (*.xls), XML files (*.csv)", "xls", "csv");
+        fileopen.setFileFilter(filter);
+
         // open directory by default.
         fileopen.setCurrentDirectory(new File(System.getProperty("user.home") + File.separator +
                 "Downloads"));
