@@ -45,8 +45,6 @@ public class Command {
         //no find article
         List<String> list;
         list = readExel.getNotUseArticle();
-        countNoFind = list.size();
-        countFind = readExel.getCount2();
 
         //create no find article
         CreateOldExel createOldExel = new CreateOldExel();
@@ -57,19 +55,22 @@ public class Command {
         WriteOldExel writeOldExel2 = new WriteOldExel(workbook2, downloadsPath);
         writeOldExel2.writeCellExel();
 
+        System.out.println();
+        System.out.println("Сохраненные файлы");
+        System.out.println(pricePath);
+        System.out.println(downloadsPath);
+        System.out.println();
 
         long end = System.nanoTime();
         long a = end - start;
-        System.out.println("Time in sec: " + a / 1000000000);
+
+        System.out.println("У С П Е Ш Н О");
+        System.out.println("Время выполнения: " + a / 1000000000 + "сек");
+        System.out.println("Оля молодец");
+        System.out.println();
+        System.out.println("Попей чайку");
+        System.out.println();
 
     }
 
-
-    public int getCountNoFind() {
-        return countNoFind;
-    }
-
-    public int getCountFind() {
-        return countFind;
-    }
 }

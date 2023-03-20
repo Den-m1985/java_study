@@ -4,8 +4,9 @@ public class CheckFileExtension {
 
     public static boolean isExtension(String str) {
         String[] array = str.split("\\.");
+        int extention = array.length - 1;
 
-        return array[1].equals("csv") || array[1].equals("xls");
+        return array[extention].equals("csv") || array[extention].equals("xls");
     }
 
 }

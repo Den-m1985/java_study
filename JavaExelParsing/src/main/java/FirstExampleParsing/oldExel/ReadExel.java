@@ -13,8 +13,7 @@ import java.util.Map;
 public class ReadExel {
     private final String fileNamePrice;
     private final int numberSheet;
-    int count2;
-    private final List<String> notUseArticle= new ArrayList<>();
+    private final List<String> notUseArticle = new ArrayList<>();
 
 
     public ReadExel(String fileNamePrice, int numberSheet) {
@@ -27,9 +26,6 @@ public class ReadExel {
         return notUseArticle;
     }
 
-    public int getCount2() {
-        return count2;
-    }
 
     public HSSFWorkbook findCellEXEL(Map<String, String> data) {
         //Row  строка
@@ -40,8 +36,7 @@ public class ReadExel {
         HSSFSheet sheet = workbook.getSheetAt(numberSheet);
 
         int cellPoint = 5;  //номер строки куда мы записываем
-        int count = 1;
-        count2 = 0;
+        int count2 = 0;
         String code = "";
         List<String> list = new ArrayList<>();
 
@@ -64,10 +59,8 @@ public class ReadExel {
                         }
                         cell.setCellValue(csv.getValue());
                     }
-
                 }
             }
-            count++;
         }
 
         for (var csv : data.entrySet()) {
@@ -75,17 +68,15 @@ public class ReadExel {
             if (list.contains(str)) {
             } else {
                 notUseArticle.add(str);
-
             }
         }
 
-        System.out.println("кол-во строк не вошедших в price " + notUseArticle.size());
-        System.out.println("число строк " + count);
-        System.out.println("число строк от команды sheet.getRow(0).getHeight() " + sheet.getRow(0).getHeight());
+        int x = sheet.getLastRowNum() + 1;
+        System.out.println("число строк в price: " + x);
+        System.out.println("кол-во строк не вошедших в price: " + notUseArticle.size());
         System.out.println("число совпадений " + count2);
 
         return workbook;
     }
-
 
 }

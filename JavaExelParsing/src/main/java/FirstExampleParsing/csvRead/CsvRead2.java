@@ -34,7 +34,9 @@ public class CsvRead2 {
         CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(parser).build();
         List<String[]> rows = csvReader.readAll(); // чтение всех строк в файле
 
+        int i = 0;
         for (String[] row : rows) {
+            i++;
             if (row.length > 3) {
                 if (row[1] != null) {
                     dataCSV.put(row[1], row[3]);
@@ -45,6 +47,7 @@ public class CsvRead2 {
             }
         }
         reader.close();
+        System.out.println("количество строк в csv: " + i);
         return dataCSV;
     }
 

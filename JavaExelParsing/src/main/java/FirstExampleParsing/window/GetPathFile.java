@@ -8,19 +8,19 @@ public class GetPathFile {
     private String path;
 
 
-    public String getPathFile() {
+    public String getPathFile(String extension) {
 
-        JFileChooser fileopen = new JFileChooser();
+        JFileChooser fileOpen = new JFileChooser();
 
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files (*.xls), XML files (*.csv)", "xls", "csv");
-        fileopen.setFileFilter(filter);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("files " + extension, extension);
+        fileOpen.setFileFilter(filter);
 
         // open directory by default.
-        fileopen.setCurrentDirectory(new File(System.getProperty("user.home") + File.separator +
-                "Downloads"));
-        int ret = fileopen.showDialog(null, "Открыть файл");
+        fileOpen.setCurrentDirectory(new File(System.getProperty("user.home") + File.separator +
+                "Desktop"));
+        int ret = fileOpen.showDialog(null, "Открыть файл");
         if (ret == JFileChooser.APPROVE_OPTION) {
-            File file = fileopen.getSelectedFile();
+            File file = fileOpen.getSelectedFile();
             path = file.getAbsolutePath();
         }
 
