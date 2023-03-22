@@ -1,4 +1,4 @@
-<dependency>
+        <dependency>
             <!-- jsoup HTML parser library @ https://jsoup.org/ -->
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -11,3 +11,20 @@
             <artifactId>selenium-java</artifactId>
             <version>4.8.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.5.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+conf.properties
+chromedriver = C:\\Users\\Den\\chromedriver_win32\\chromedriver.exe
+login = 
+password = 

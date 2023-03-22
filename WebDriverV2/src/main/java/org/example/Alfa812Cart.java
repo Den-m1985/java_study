@@ -22,8 +22,8 @@ public class Alfa812Cart {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Den\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
 
-        //Duration duration = Duration.ofSeconds(10);
-        wait = new WebDriverWait(driver, 10);
+        Duration duration = Duration.ofSeconds(10);
+        wait = new WebDriverWait(driver, duration);
 
         /*
         Таким образом, если элемент не найден, то драйвер будет ждать его появления
