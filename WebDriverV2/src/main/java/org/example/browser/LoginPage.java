@@ -2,33 +2,22 @@ package org.example.browser;
 
 import org.example.TextLinks;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
-
-    /**
-     * конструктор класса, занимающийся инициализацией полей класса
-     */
-    public WebDriver driver;
     private final WebDriverWait wait;
 
 
-    public LoginPage(WebDriver driver, WebDriverWait wait) {
-        PageFactory.initElements(driver, this);
-        this.driver = driver;
+    public LoginPage(WebDriverWait wait) {
         this.wait = wait;
 
         signAccount();
     }
 
-    void signAccount() {
 
-        TextLinks textLinks = TextLinks.ADDRESS;
-        driver.get(textLinks.getString());
+    void signAccount() {
 
         // поле Кабинет
         TextLinks LinksCabinet = TextLinks.CABINET;

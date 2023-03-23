@@ -1,15 +1,14 @@
 package org.example;
 
 import com.opencsv.exceptions.CsvException;
-import org.example.browser.LoginPage;
-import org.example.browser.OpenChromeBrowser;
+import org.example.browser.*;
 import org.example.csvRead.CsvRead;
-import org.example.oldExel.WrightOldExelArticul;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,21 +27,37 @@ public class Command {
         WebDriver driver = openBrowser.getDriver();
         WebDriverWait wait = openBrowser.getWait();
 
+        new OpenWebSite(driver);
+
         // авторизуемся
-        new LoginPage(driver, wait);
+        new LoginPage(wait);
 
 
         String articul = "ЧЕХОЛ НА ТАБУРЕТ НА РЕЗИНКЕ МЯГКИЙ";
         // читаем csv
+        int cellName = 0;   // Cell with name or articular
+        int cellItem = 3;   // Cell with item to order
         CsvRead csvRead = new CsvRead(pathCSV);
-        Map<String, String> data = csvRead.readCSV();
+        Map<String, String> data = csvRead.readCSV(cellName, cellItem);
 
+        Map<String, String> data2 = new HashMap<>();
+        data2.put("BESTWAY Круг для плавания, 56см, ПВХ, дизайнерский", "5");
 
-        SearchGoods searchGoods = new SearchGoods(driver, wait);
-        searchGoods.searchProduct(articul);
+        for (Map.Entry<String, String> goods: data2.entrySet()) {
+            //goods.getKey();
+            //goods.getValue();
+
+            SearchGoods searchGoods = new SearchGoods(wait);
+            searchGoods.searchProduct(goods.getKey());
+
+            AddGoods addGoods = new AddGoods(wait);
+            addGoods.addGoods(goods.getValue());
+
+        }
+
 
         List<String> list = new ArrayList<>();
-        new WrightOldExelArticul(list);
+        //new WrightOldExelArticul(list);
 
 
         long end = System.nanoTime();

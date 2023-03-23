@@ -8,15 +8,13 @@ import com.opencsv.exceptions.CsvException;
 import org.example.TextLinks;
 
 import java.io.*;
-
 import java.util.*;
 
 
 public class CsvRead {
-
-
     private final String fileName;
     private final Map<String, String> dataCSV;
+
 
     public CsvRead(String fileName) {
         this.dataCSV = new HashMap<>();
@@ -24,31 +22,40 @@ public class CsvRead {
     }
 
 
-    public Map<String, String> readCSV() throws IOException, CsvException {
+    public Map<String, String> readCSV(int cellName, int cellItem) throws IOException, CsvException {
 
         Reader reader = new InputStreamReader(new FileInputStream(fileName), "windows-1251");
-        CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // задание разделителя
+        CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // separator with ;
         CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(parser).build();
-        List<String[]> rows = csvReader.readAll(); // чтение всех строк в файле
+        List<String[]> rows = csvReader.readAll(); // read all rows in the file
 
-        int i = 0;
         for (String[] row : rows) {
-            i++;
-            if (row.length > 3) {
-                if (row[1] != null) {
-                    dataCSV.put(row[1], row[3]);
-//                    System.out.println(row.length + "      " + row[0] + "      " + row[1] + "        " + row[2] +
-//                            "       " + row[3] + "     "+ row[4]);
-                    //System.out.println(row[3]);
-                }
+            if (isInteger(row[cellItem])) {   // check - if cell item is integer?
+                dataCSV.put(row[cellName], row[cellItem]);
             }
+            //System.out.println(row.length + "__" + row[0] + "__" + row[1] + "__" + row[2] + "__" + row[3]);
+            //System.out.println();
         }
         reader.close();
 
-        TextLinks textLinks = TextLinks.COUNROWSCSV;
+//        for (Map.Entry<String, String> x: dataCSV.entrySet()) {
+//            System.out.println(x);
+//        }
 
-        System.out.println(textLinks.getString() + i);
+        TextLinks textLinks = TextLinks.COUNROWSCSV;
+        System.out.println();
+        System.out.println(textLinks.getString() + dataCSV.size());
         return dataCSV;
+    }
+
+
+    boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 
