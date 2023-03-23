@@ -23,8 +23,3 @@
             <artifactId>poi</artifactId>
             <version>3.17</version>
         </dependency>
-
-conf.properties
-chromedriver = C:\\Users\\Den\\chromedriver_win32\\chromedriver.exe
-login = 
-password = 
