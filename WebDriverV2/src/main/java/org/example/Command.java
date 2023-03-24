@@ -64,6 +64,8 @@ public class Command {
             } else noFindList.add(goodsName);
         }
 
+        driver.close();
+
         new WrightOldExelArticul(noFindList);
 
         long end = System.nanoTime();
