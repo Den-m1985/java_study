@@ -3,7 +3,11 @@ package org.example;
 import com.opencsv.exceptions.CsvException;
 import org.example.browser.*;
 import org.example.csvRead.CsvRead;
+import org.example.oldExel.WrightOldExelArticul;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
@@ -40,27 +44,34 @@ public class Command {
 
         //Map<String, String> data2 = new HashMap<>();
         //data2.put("BESTWAY Круг для плавания, 56см, ПВХ, дизайнерский", "5");
-
-        for (Map.Entry<String, String> goods: data.entrySet()) {
+        List<String> noFindList = new ArrayList<>();
+        for (Map.Entry<String, String> goods : data.entrySet()) {
+            String goodsName = goods.getKey();
 
             SearchGoods searchGoods = new SearchGoods(wait);
-            searchGoods.searchProduct(goods.getKey());
-            /*
-            добавить проверку на отсутствие товара
-             */
-            AddGoods addGoods = new AddGoods(wait);
-            addGoods.addGoods(goods.getValue());
+            searchGoods.searchProduct(goodsName);
 
+            // от ChatGPT не работает
+            //WebElement searchBox = driver.findElement(By.name("input_search"));
+            //searchBox.sendKeys(goods.getKey());
+            //searchBox.submit();
+
+            List<WebElement> products = driver.findElements(By.className("product"));
+            if (products.size() > 0) {
+                // товар найден
+                AddGoods addGoods = new AddGoods(wait);
+                addGoods.addGoods(goods.getValue());
+            } else noFindList.add(goodsName);
         }
 
-        List<String> list = new ArrayList<>();
-        //new WrightOldExelArticul(list);
+        new WrightOldExelArticul(noFindList);
 
         long end = System.nanoTime();
         long a = end - start;
 
         System.out.println();
-        System.out.println("У С П Е Ш Н О");
+        System.out.println("_________У С П Е Ш Н О________");
+        System.out.println();
         System.out.println("Время выполнения: " + a / 1000000000 + "сек");
         System.out.println("Оля молодец");
         System.out.println();

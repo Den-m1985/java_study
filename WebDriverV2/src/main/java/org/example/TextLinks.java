@@ -8,6 +8,7 @@ public enum TextLinks {
     ENTERACCOUNT("//*[@id=\"content\"]/form/input[3]"),  //поле входа
     SEARCHFIELD("//*[@id=\"search\"]/form/input[2]"),  //поле поиска
     BUTTONSEARCH("//*[@id=\"search\"]/form/input[1]"),  //поле кнопки поска
+    NOFIND("//*[@id=\"content\"]/p"),  // поле Товар не найден
     ADDITEM("//*[@id=\"content\"]/div/div[2]/form/div/div[1]/span[1]/input"),  //поле добавить кол-во
     CLICKBAY("//*[@id=\"content\"]/div/div[2]/form/div/input"),  //поле добавить в корзину
     CLOUDWINDOW("//*[@id=\"fancybox-wrap\"]"),  // всплывающее окно
