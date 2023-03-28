@@ -1,50 +1,36 @@
 package FirstExampleParsing.csvRead;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvException;
+
 import java.io.*;
 import java.util.*;
 
+
 public class CsvRead {
+
+
     private final String fileName;
-    private final Map<String, String> dataCSV;
+
 
     public CsvRead(String fileName) {
-        this.dataCSV = new HashMap<>();
         this.fileName = fileName;
     }
 
-// Этот метод не учитывает двойные кавычки.
-    public Map<String, String> readCSV() throws IOException {
-        String line;
-        String[] values;
-        StringBuilder str = new StringBuilder();
 
-        try (BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(fileName), "windows-1251"))) {
-            while ((line = bufferedReader.readLine()) != null) {
-                values = line.split(";");
+    public List<String[]> readCSV() throws IOException, CsvException {
 
+        Reader reader = new InputStreamReader(new FileInputStream(fileName), "windows-1251");
+        CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // задание разделителя
+        CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(parser).build();
+        List<String[]> rows = csvReader.readAll(); // чтение всех строк в файле
 
-                if (values.length == 4) {
-                    if (values[1] != null)
-                        //dataCSV.add(values[1]);
-                        dataCSV.put(values[1], values[3]);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return dataCSV;
+        reader.close();
+        return rows;
     }
 
+
 }
-/*
-HashMap
-put(K,V) – добавить пару если или изменить значение,если ключ имеется.
-putIfAbsent(K,V) – произвести добавление если ключ не найден.
-get(K) - получение значения по указанному ключу.
-remove(K) – удаляет пару по указанному ключу.
-containsValue(V) – проверка наличия значения.
-containsKey(V) – проверка наличия ключа.
-keySet() – возвращает множество ключей.
-values() – возвращает набор значений.
- */

@@ -13,7 +13,7 @@ import java.util.Map;
 public class ReadExel {
     private final String fileNamePrice;
     private final int numberSheet;
-    private final List<String> notUseArticle = new ArrayList<>();
+    private final ArrayList<String> notUseArticle = new ArrayList<>();
 
 
     public ReadExel(String fileNamePrice, int numberSheet) {
@@ -27,7 +27,7 @@ public class ReadExel {
     }
 
 
-    public HSSFWorkbook findCellEXEL(Map<String, String> data) {
+    public HSSFWorkbook findCellEXEL(List<String[]> data, int cellName, int cellItem) {
         //Row  строка
         //Cell столб
 
@@ -40,8 +40,8 @@ public class ReadExel {
         String code = "";
         List<String> list = new ArrayList<>();
 
-        for (var csv : data.entrySet()) {
-            String key = csv.getKey();
+        for (String[] csv : data) {
+            String key = csv[cellName];
 
             for (Row row : sheet) {
                 Cell cell1 = row.getCell(1);
@@ -57,14 +57,14 @@ public class ReadExel {
                         if (cell == null) { // если ячейка пустая, создаем ее
                             cell = row.createCell(cellPoint);
                         }
-                        cell.setCellValue(csv.getValue());
+                        cell.setCellValue(csv[cellItem]);
                     }
                 }
             }
         }
 
-        for (var csv : data.entrySet()) {
-            String str = csv.getKey();
+        for (String[] csv : data) {
+            String str = csv[cellName];
             if (list.contains(str)) {
             } else {
                 notUseArticle.add(str);

@@ -1,14 +1,14 @@
 package FirstExampleParsing;
 
 import FirstExampleParsing.createPathFile.CreatePathFile;
-import FirstExampleParsing.csvRead.CsvRead2;
+import FirstExampleParsing.csvRead.CsvFilter;
+import FirstExampleParsing.csvRead.CsvRead;
 import FirstExampleParsing.oldExel.CreateOldExel;
 import FirstExampleParsing.oldExel.ReadExel;
 import FirstExampleParsing.oldExel.WriteOldExel;
 import com.opencsv.exceptions.CsvException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -27,15 +27,16 @@ public class Command {
 
         CreatePathFile createPathFile = new CreatePathFile();
 
-        // read csv
-        Map<String, String> data;
-        CsvRead2 csvRead = new CsvRead2(pathCSV);
-        data = csvRead.readCSV();
+        // Read csv
+        int cellName = 1;   // Cell with name or articular
+        int cellItem = 3;   // Cell with item to order
+        CsvFilter csvFilter = new CsvFilter(pathCSV);
+        List<String[]> data = csvFilter.csvFilter(cellName, cellItem);
 
         // read xls
         int numberSheet = 0;  // номер страницы в файле.
         ReadExel readExel = new ReadExel(pathXLS, numberSheet);
-        HSSFWorkbook workbook = readExel.findCellEXEL(data);
+        HSSFWorkbook workbook = readExel.findCellEXEL(data, cellName, cellItem);
 
         // write xls. new path "Price" in downloads
         String pricePath = createPathFile.createPathFile("Price");

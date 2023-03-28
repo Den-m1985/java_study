@@ -22,8 +22,8 @@ public class CreateOldExel {
         Row row = sheet.createRow(0);
         row.createCell(0).setCellValue("Артикулы не найденые в price");
 
-        for (int i = 2; i < list.size(); i++) {
-            Row row2 = sheet.createRow(i);
+        for (int i = 0; i < list.size(); i++) {
+            Row row2 = sheet.createRow(i+2);
             row2.createCell(0).setCellValue(list.get(i));
         }
 
