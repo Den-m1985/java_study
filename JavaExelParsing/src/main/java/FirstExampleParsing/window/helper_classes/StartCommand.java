@@ -1,8 +1,10 @@
-package FirstExampleParsing.window;
+package FirstExampleParsing.window.helper_classes;
 
 import FirstExampleParsing.Command;
+import FirstExampleParsing.window.GetPathFile;
 import com.opencsv.exceptions.CsvException;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -46,7 +48,7 @@ public class StartCommand implements ActionListener {
         } catch (IOException | CsvException ex) {
             throw new RuntimeException(ex);
         }
-
+        JOptionPane.showMessageDialog(null,"Успешно");
     }
 
 }

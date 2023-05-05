@@ -1,4 +1,4 @@
-package FirstExampleParsing.window;
+package FirstExampleParsing.window.helper_classes;
 
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
@@ -16,7 +16,7 @@ public class OutputStreamEncoding extends OutputStream{
     }
 
     @Override
-    public void write(int b) throws IOException {
+    public void write(int b) {
         baos.write(b);
     }
 
