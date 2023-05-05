@@ -2,7 +2,7 @@ package FirstExampleParsing;
 
 import FirstExampleParsing.createPathFile.CreatePathFile;
 import FirstExampleParsing.csvRead.CsvFilter;
-import FirstExampleParsing.csvRead.CsvRead;
+import FirstExampleParsing.csvRead.csv.StructureCSV;
 import FirstExampleParsing.oldExel.CreateOldExel;
 import FirstExampleParsing.oldExel.ReadExel;
 import FirstExampleParsing.oldExel.WriteOldExel;
@@ -10,13 +10,12 @@ import com.opencsv.exceptions.CsvException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class Command {
-    int countNoFind;
-    int countFind;
+
     public Command() {
     }
 
@@ -25,34 +24,35 @@ public class Command {
 
         long start = System.nanoTime();
 
-        CreatePathFile createPathFile = new CreatePathFile();
-
         // Read csv
-        int cellName = 1;   // Cell with name or articular
         int cellItem = 3;   // Cell with item to order
         CsvFilter csvFilter = new CsvFilter(pathCSV);
-        List<String[]> data = csvFilter.csvFilter(cellName, cellItem);
+        List<StructureCSV> data = csvFilter.csvFilter(cellItem);
+        List<String[]> reportList = new ArrayList<>(csvFilter.getError());
 
         // read xls
         int numberSheet = 0;  // номер страницы в файле.
-        ReadExel readExel = new ReadExel(pathXLS, numberSheet);
-        HSSFWorkbook workbook = readExel.findCellEXEL(data, cellName, cellItem);
+        int cellEXL = 1;  //  // Cell with articular
+        int cellPoint = 5;  //номер строки куда мы записываем
+        ReadExel readExel = new ReadExel(pathXLS);
+        HSSFWorkbook workbook = readExel.findCellEXEL(data, cellEXL, cellPoint, numberSheet);
 
         // write xls. new path "Price" in downloads
-        String pricePath = createPathFile.createPathFile("Price");
+        CreatePathFile createPathFile = new CreatePathFile();
+        String pricePath = createPathFile.createPathFile("Price", ".xls");
+
         WriteOldExel writeOldExel = new WriteOldExel(workbook, pricePath);
         writeOldExel.writeCellExel();
 
         //no find article
-        List<String> list;
-        list = readExel.getNotUseArticle();
+        reportList.addAll(readExel.getNotUseArticle());
 
         //create no find article
         CreateOldExel createOldExel = new CreateOldExel();
-        HSSFWorkbook workbook2 = createOldExel.createOldExel(list);
+        HSSFWorkbook workbook2 = createOldExel.createOldExel(reportList);
 
         //write no find article, xls file in downloads
-        String downloadsPath = createPathFile.createPathFile("No_Find");
+        String downloadsPath = createPathFile.createPathFile("No_Find_Seeds", ".xls");
         WriteOldExel writeOldExel2 = new WriteOldExel(workbook2, downloadsPath);
         writeOldExel2.writeCellExel();
 

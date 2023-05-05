@@ -8,7 +8,7 @@ public class CreatePathFile {
     }
 
 
-    public String  createPathFile (String fileName){
+    public String  createPathFile (String fileName, String extension){
 
         Date date = new Date();
         String str = date.currentDate();
@@ -18,7 +18,7 @@ public class CreatePathFile {
 //                "Downloads\\No_Find_" + str + ".xls";
 
         return System.getProperty("user.home") + File.separator +
-                "Downloads\\" + fileName + "_" + str + ".xls";
+                "Downloads\\" + fileName + "_" + str + extension;
     }
 
 

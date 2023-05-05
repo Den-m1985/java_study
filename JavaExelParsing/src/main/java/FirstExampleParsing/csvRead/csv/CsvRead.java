@@ -1,4 +1,4 @@
-package FirstExampleParsing.csvRead;
+package FirstExampleParsing.csvRead.csv;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -11,8 +11,6 @@ import java.util.*;
 
 
 public class CsvRead {
-
-
     private final String fileName;
 
 
@@ -22,15 +20,14 @@ public class CsvRead {
 
 
     public List<String[]> readCSV() throws IOException, CsvException {
-
         Reader reader = new InputStreamReader(new FileInputStream(fileName), "windows-1251");
-        CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // задание разделителя
+        CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // separator with ;
         CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(parser).build();
-        List<String[]> rows = csvReader.readAll(); // чтение всех строк в файле
+        List<String[]> rows = csvReader.readAll(); // read all rows in the file
 
         reader.close();
+
         return rows;
     }
-
 
 }

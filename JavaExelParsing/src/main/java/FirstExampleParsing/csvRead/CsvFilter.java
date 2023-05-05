@@ -1,64 +1,58 @@
 package FirstExampleParsing.csvRead;
 
+import FirstExampleParsing.csvRead.csv.CsvRead;
+import FirstExampleParsing.csvRead.csv.DuplicateGoods;
+import FirstExampleParsing.csvRead.csv.OnlyGoods;
+import FirstExampleParsing.csvRead.csv.StructureCSV;
+import FirstExampleParsing.csvRead.csv.UniqueGoods;
 import com.opencsv.exceptions.CsvException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CsvFilter {
 
     private final String fileName;
+    private List<String[]> error;
 
     public CsvFilter(String fileName) {
         this.fileName = fileName;
     }
 
 
-    public List<String[]> csvFilter(int cellName, int cellItem) throws IOException, CsvException {
+    public List<StructureCSV> csvFilter(int cellItem) throws IOException, CsvException {
 
         CsvRead csvRead = new CsvRead(fileName);
         List<String[]> rows = csvRead.readCSV();
 
-        List<String[]> dataCSV = new ArrayList<>();
+        // В этом блоке оставляем только те колонки где есть цена и кол-во
+        OnlyGoods onlyGoods = new OnlyGoods();
+        List<StructureCSV> dataWithItem = onlyGoods.onlyGoods(rows,cellItem);
+        error = onlyGoods.reportCSV();
 
+        // этот блок возвращает иникальные элементы
+        UniqueGoods uniqueGoods = new UniqueGoods();
+        List<StructureCSV> uniqueValues = uniqueGoods.uniqueGoods(dataWithItem);
+        List<StructureCSV> duplicateNames = uniqueGoods.getDuplicateNames();
 
-        for (String[] row : rows) {
-            boolean isUnique = true;
-
-            // Проверяем уникальность текущего элемента среди уже имеющихся в новом списке
-            for (String[] uniq : dataCSV) {
-                if (row[cellName].equals(uniq[0])) {
-                    // Строка не уникальна - выходим из цикла по поиску уникальных строк
-                    isUnique = false;
-                    System.out.println("Повтояющееся имя товара: " + row[cellName]);
-                    break;
-                }
-            }
-
-            if (isUnique) {
-                // Если проверяемая строка уникальна, добавляем её в список уникальных строк
-                if (isInteger(row[cellItem]))    // check - if cell item is integer?
-                    dataCSV.add(row);
-            }
+        // этот блок работатет с повторяющимися именами.
+        if (duplicateNames != null) {
+            List<StructureCSV> resolveDuplicatedNames = new DuplicateGoods().duplicateGoods(duplicateNames);
+            uniqueValues.addAll(resolveDuplicatedNames);
         }
 
-
+//        for (StructureCSV x:uniqueValues) {
+//            System.out.println(x.toString());
+//        }
 
         System.out.println();
-        System.out.println("количество товаров в csv: " + dataCSV.size());
+        System.out.println("количество товаров в csv: " + uniqueValues.size());
 
-        return dataCSV;
+        return uniqueValues;
     }
 
-
-    boolean isInteger(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+    public List<String[]> getError() {
+        return error;
     }
 
 

@@ -1,6 +1,7 @@
 package FirstExampleParsing.oldExel;
 
 
+import FirstExampleParsing.csvRead.csv.StructureCSV;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -8,26 +9,18 @@ import org.apache.poi.ss.usermodel.Row;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ReadExel {
     private final String fileNamePrice;
-    private final int numberSheet;
-    private final ArrayList<String> notUseArticle = new ArrayList<>();
+    private ArrayList<String[]> notUseArticle;
 
 
-    public ReadExel(String fileNamePrice, int numberSheet) {
+    public ReadExel(String fileNamePrice) {
         this.fileNamePrice = fileNamePrice;
-        this.numberSheet = numberSheet;
     }
 
 
-    public List<String> getNotUseArticle() {
-        return notUseArticle;
-    }
-
-
-    public HSSFWorkbook findCellEXEL(List<String[]> data, int cellName, int cellItem) {
+    public HSSFWorkbook findCellEXEL(List<StructureCSV> data, int cellEXL, int cellPoint, int numberSheet) {
         //Row  строка
         //Cell столб
 
@@ -35,21 +28,17 @@ public class ReadExel {
         HSSFWorkbook workbook = openOldExelFile.openFile();
         HSSFSheet sheet = workbook.getSheetAt(numberSheet);
 
-        int cellPoint = 5;  //номер строки куда мы записываем
-        int count2 = 0;
-        String code = "";
         List<String> list = new ArrayList<>();
 
-        for (String[] csv : data) {
-            String key = csv[cellName];
+        for (StructureCSV csv : data) {
+            String articularCSV = csv.getArtucul();
 
             for (Row row : sheet) {
-                Cell cell1 = row.getCell(1);
+                Cell cell1 = row.getCell(cellEXL);
                 if (cell1 != null) {
-                    code = cell1.getStringCellValue();
-                    if (code.equals(key)) {
-                        count2++;
-                        list.add(key);
+                    String articularEXL = cell1.getStringCellValue();
+                    if (articularEXL.equals(articularCSV)) {
+                        list.add(articularCSV);
 
                         Row row2 = sheet.getRow(row.getRowNum()); // получаем  строку
                         Cell cell = row2.getCell(cellPoint); // получаем  ячейку
@@ -57,26 +46,34 @@ public class ReadExel {
                         if (cell == null) { // если ячейка пустая, создаем ее
                             cell = row.createCell(cellPoint);
                         }
-                        cell.setCellValue(csv[cellItem]);
+                        String strItem = String.valueOf(csv.getItem());
+                        cell.setCellValue(strItem);
                     }
                 }
             }
         }
 
-        for (String[] csv : data) {
-            String str = csv[cellName];
-            if (list.contains(str)) {
-            } else {
-                notUseArticle.add(str);
+        notUseArticle = new ArrayList<>();
+
+        for (StructureCSV csv : data) {
+            String str = csv.getArtucul();
+            if (!list.contains(str)) {
+                String[] noFind = {str, "артикул НЕ найден"};
+                notUseArticle.add(noFind);
             }
         }
 
-        int x = sheet.getLastRowNum() + 1;
-        System.out.println("число строк в price: " + x);
+        int lastRow = sheet.getLastRowNum() + 1;
+        System.out.println("число строк в price: " + lastRow);
         System.out.println("кол-во строк не вошедших в price: " + notUseArticle.size());
-        System.out.println("число совпадений " + count2);
+        System.out.println("число совпадений " + list.size());
 
         return workbook;
+    }
+
+
+    public List<String[]> getNotUseArticle() {
+        return notUseArticle;
     }
 
 }

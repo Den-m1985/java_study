@@ -1,6 +1,5 @@
 package FirstExampleParsing;
 
-import FirstExampleParsing.window.Window;
 import FirstExampleParsing.window.Window2;
 
 import java.io.UnsupportedEncodingException;

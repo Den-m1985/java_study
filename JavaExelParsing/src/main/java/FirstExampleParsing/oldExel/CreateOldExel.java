@@ -8,12 +8,10 @@ import java.util.List;
 
 public class CreateOldExel {
 
-    private List<String> cell;
-
     public CreateOldExel() {
     }
 
-    public HSSFWorkbook createOldExel(List<String> list) {
+    public HSSFWorkbook createOldExel(List<String[]> list) {
         HSSFWorkbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
 
@@ -24,7 +22,8 @@ public class CreateOldExel {
 
         for (int i = 0; i < list.size(); i++) {
             Row row2 = sheet.createRow(i+2);
-            row2.createCell(0).setCellValue(list.get(i));
+            row2.createCell(0).setCellValue(list.get(i)[0]);
+            row2.createCell(2).setCellValue(list.get(i)[1]);
         }
 
         return workbook;
