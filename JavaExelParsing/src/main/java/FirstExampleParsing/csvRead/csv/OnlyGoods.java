@@ -9,6 +9,7 @@ public class OnlyGoods {
     public OnlyGoods() {
     }
 
+
     public List<StructureCSV> onlyGoods(List<String[]> rows, int cellItem) {
 
         List<StructureCSV> dataWithItem = new ArrayList<>();
@@ -17,6 +18,7 @@ public class OnlyGoods {
         for (String[] row : rows) {
             // Бывает, что в исходнике некорректно сделана структура, эти позиции отправляются в итоговый отчет.
             try {
+
                 int wrong = row[4].length();
                 if (wrong>0){
                     String[] error = {row[0], "Неверный формат CSV"};
@@ -26,7 +28,7 @@ public class OnlyGoods {
 
             // Если в ячейке price и item число, то эту строку добавляем для дальнейшей работы.
             if (isInteger(row[cellItem])) {
-                int item = Integer.parseInt(row[cellItem]);
+                int item = stringToInt(row[cellItem]);
                 dataWithItem.add(new StructureCSV(row[0], row[1], row[2], item));
             }
         }
@@ -40,12 +42,20 @@ public class OnlyGoods {
 
 
     static boolean isInteger(String str) {
+        if (str == null) {
+            return false;
+        }
         try {
-            Integer.parseInt(str);
+            stringToInt(str);
             return true;
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+
+    static int stringToInt(String str) {
+        return Integer.parseInt(str);
     }
 
 
