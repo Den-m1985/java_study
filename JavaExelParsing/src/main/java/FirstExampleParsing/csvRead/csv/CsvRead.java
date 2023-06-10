@@ -20,12 +20,16 @@ public class CsvRead {
 
 
     public List<String[]> readCSV() throws IOException, CsvException {
-        Reader reader = new InputStreamReader(new FileInputStream(fileName), "windows-1251");
-        CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // separator with ;
-        CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(parser).build();
-        List<String[]> rows = csvReader.readAll(); // read all rows in the file
-
-        reader.close();
+        Reader reader = null;
+        List<String[]> rows;
+        try {
+            reader = new InputStreamReader(new FileInputStream(fileName), "windows-1251");
+            CSVParser parser = new CSVParserBuilder().withSeparator(';').build(); // separator with ;
+            CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(parser).build();
+            rows = csvReader.readAll(); // read all rows in the file
+        }finally {
+            reader.close();
+        }
 
         return rows;
     }
