@@ -44,7 +44,7 @@ public class Command {
 
         //Map<String, String> data2 = new HashMap<>();
         //data2.put("BESTWAY Круг для плавания, 56см, ПВХ, дизайнерский", "5");
-        List<String> noFindList = new ArrayList<>();
+        ArrayList<String> noFindList = new ArrayList<>();
         for (Map.Entry<String, String> goods : data.entrySet()) {
             String goodsName = goods.getKey();
 
@@ -56,15 +56,26 @@ public class Command {
             //searchBox.sendKeys(goods.getKey());
             //searchBox.submit();
 
-            List<WebElement> products = driver.findElements(By.className("product"));
+            List<WebElement> products = driver.findElements(By.className("products"));
+            //List<WebElement> products = driver.findElements(By.id("content"));
+            List<WebElement> product = driver.findElements(By.className("product"));
             if (products.size() > 0) {
+                noFindList.add(goodsName);
+            }
+            else if (product.size() > 0) {
+//                System.out.println();
+//                System.out.println(goodsName);
+//                System.out.println("Длина продукта   _______" + product.size());
+//                System.out.println();
                 // товар найден
-                AddGoods addGoods = new AddGoods(wait);
-                addGoods.addGoods(goods.getValue());
-            } else noFindList.add(goodsName);
+                //AddGoods addGoods = new AddGoods(wait);
+                //addGoods.addGoods(goods.getValue());
+            }
+            else noFindList.add(goodsName);
+
         }
 
-        driver.close();
+        //driver.close();  //закрываем браузер по завершению
 
         new WrightOldExelArticul(noFindList);
 
@@ -75,9 +86,9 @@ public class Command {
         System.out.println("_________У С П Е Ш Н О________");
         System.out.println();
         System.out.println("Время выполнения: " + a / 1000000000 + "сек");
-        System.out.println("Оля молодец");
+        System.out.println("_________Оля молодец_________");
         System.out.println();
-        System.out.println("Попей чайку");
+        System.out.println("_________Попей чайку_________");
         System.out.println();
     }
 

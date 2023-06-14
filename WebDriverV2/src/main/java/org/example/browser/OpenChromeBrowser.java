@@ -25,14 +25,11 @@ public class OpenChromeBrowser {
 
     public void openChrome() {
 
-        // установливаем зависимость, определяющую путь к chomedriver
+        // установливаем зависимость, определяющую путь к chromedriver
         ChromeOptions options = new ChromeOptions();
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
-
-        Duration duration = Duration.ofSeconds(10);
-        wait = new WebDriverWait(driver, duration);
 
         /*
         Таким образом, если элемент не найден, то драйвер будет ждать его появления
@@ -40,7 +37,11 @@ public class OpenChromeBrowser {
         Как только элемент будет найден, драйвер продолжит работу, однако,
         в противном случае тест упадем по истечению времени
          */
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Duration duration = Duration.ofSeconds(10);
+        wait = new WebDriverWait(driver, duration);
+
+        //ожидание каждый раз когда выполняется команда на сайте
+        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         //driver.manage().window().fullscreen();  // не работает на полный экран
     }
 

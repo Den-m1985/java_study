@@ -33,14 +33,8 @@ public class CsvRead {
             if (isInteger(row[cellItem])) {   // check - if cell item is integer?
                 dataCSV.put(row[cellName], row[cellItem]);
             }
-            //System.out.println(row.length + "__" + row[0] + "__" + row[1] + "__" + row[2] + "__" + row[3]);
-            //System.out.println();
         }
         reader.close();
-
-//        for (Map.Entry<String, String> x: dataCSV.entrySet()) {
-//            System.out.println(x);
-//        }
 
         TextLinks textLinks = TextLinks.COUNROWSCSV;
         System.out.println();
